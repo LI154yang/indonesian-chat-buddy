@@ -35,7 +35,7 @@ const levelColors: Record<string, string> = {
 };
 
 function Index() {
-  const [activeLesson, setActiveLesson] = useState(lessons[0].id);
+  const [activeLesson, setActiveLesson] = useState(lessons[0]!.id);
   const lesson = lessons.find((l) => l.id === activeLesson)!;
 
   return (

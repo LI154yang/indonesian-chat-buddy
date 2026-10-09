@@ -19,7 +19,7 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
       return;
     }
     setPlayingAll(false);
-    const ok = speakIndonesian(lesson.lines[index].indonesian, {
+    const ok = speakIndonesian(lesson.lines[index]!.indonesian, {
       onEnd: () => setActiveLine(null),
     });
     if (ok) setActiveLine(index);
@@ -42,7 +42,7 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
       }
       const current = i;
       setActiveLine(current);
-      speakIndonesian(lesson.lines[current].indonesian, {
+      speakIndonesian(lesson.lines[current]!.indonesian, {
         rate: 0.85,
         onEnd: () => {
           i += 1;
