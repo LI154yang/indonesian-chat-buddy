@@ -193,6 +193,45 @@ export const lessons: Lesson[] = [
       { word: "Enak sekali!", meaning: "太好吃了！" },
     ],
   },
+  {
+    id: "directions", title: "问路与出行", subtitle: "找到车站，轻松走到目的地", level: "初级", scene: "日惹街头，前往火车站",
+    cultureNote: "向陌生人问路可以先说 Permisi（打扰一下）。在问句末尾加 ya，语气通常会更柔和。听完路线后，记得说 Terima kasih。",
+    lines: [
+      { speaker: "你", indonesian: "Permisi, stasiun di mana, ya?", chinese: "打扰一下，请问火车站在哪里？", tip: "Di mana = 在哪里" },
+      { speaker: "路人", indonesian: "Lurus saja dari sini, lalu belok kiri.", chinese: "从这里直走，然后左转。", tip: "Belok kiri = 左转；belok kanan = 右转" },
+      { speaker: "你", indonesian: "Masih jauh dari sini?", chinese: "离这里还远吗？" },
+      { speaker: "路人", indonesian: "Tidak, dekat. Sekitar lima menit jalan kaki.", chinese: "不远，很近。走路大概五分钟。" },
+      { speaker: "你", indonesian: "Baik, terima kasih banyak!", chinese: "好的，非常感谢！" },
+      { speaker: "路人", indonesian: "Sama-sama. Hati-hati di jalan.", chinese: "不客气。路上小心。" },
+    ],
+    vocab: [{ word: "Permisi", meaning: "打扰一下" }, { word: "Di mana?", meaning: "在哪里？" }, { word: "Belok kiri", meaning: "左转" }, { word: "Jalan kaki", meaning: "步行" }, { word: "Dekat", meaning: "近" }, { word: "Lurus", meaning: "直走" }],
+  },
+  {
+    id: "hotel", title: "酒店入住", subtitle: "办理入住，询问早餐与房间", level: "初级", scene: "巴厘岛酒店前台",
+    cultureNote: "递交护照或付款时，使用右手或双手比较礼貌。询问是否包含早餐可以说 Sudah termasuk sarapan?，避免把早餐是否收费当作默认。",
+    lines: [
+      { speaker: "你", indonesian: "Selamat siang, saya mau check-in.", chinese: "中午好，我想办理入住。" },
+      { speaker: "前台", indonesian: "Baik, atas nama siapa pesanannya?", chinese: "好的，请问用谁的名字预订的？", tip: "Atas nama = 以……的名字" },
+      { speaker: "你", indonesian: "Atas nama Mei. Ini paspor saya.", chinese: "用小美的名字。这是我的护照。" },
+      { speaker: "前台", indonesian: "Kamar Anda di lantai dua. Ini kuncinya.", chinese: "您的房间在二楼。这是钥匙。" },
+      { speaker: "你", indonesian: "Sudah termasuk sarapan?", chinese: "包含早餐吗？", tip: "Termasuk = 包含" },
+      { speaker: "前台", indonesian: "Sudah. Sarapan mulai jam tujuh di restoran.", chinese: "包含了。早餐七点开始，在餐厅用餐。" },
+    ],
+    vocab: [{ word: "Paspor", meaning: "护照" }, { word: "Kamar", meaning: "房间" }, { word: "Lantai dua", meaning: "二楼" }, { word: "Sarapan", meaning: "早餐" }, { word: "Kunci", meaning: "钥匙" }, { word: "Termasuk", meaning: "包含" }],
+  },
+  {
+    id: "friends", title: "交朋友与邀约", subtitle: "聊聊生活，约一杯咖啡", level: "进阶", scene: "雅加达咖啡馆，与新朋友聊天",
+    cultureNote: "Ngopi 是日常口语里的「喝咖啡」，也常用来邀请朋友小聚。Kapan-kapan 表示「改天、有空的时候」，不一定是已经确定的约会时间。",
+    lines: [
+      { speaker: "Andi", indonesian: "Kamu tinggal di mana sekarang?", chinese: "你现在住在哪里？" },
+      { speaker: "你", indonesian: "Saya tinggal di Jakarta. Saya baru pindah ke sini.", chinese: "我住在雅加达。我刚搬到这里。", tip: "Baru pindah = 刚搬来" },
+      { speaker: "Andi", indonesian: "Wah, selamat datang! Kamu suka kopi?", chinese: "哇，欢迎！你喜欢咖啡吗？" },
+      { speaker: "你", indonesian: "Suka! Ada kafe yang enak di dekat sini?", chinese: "喜欢！附近有什么不错的咖啡馆吗？" },
+      { speaker: "Andi", indonesian: "Ada. Besok sore kita ngopi, yuk!", chinese: "有。明天下午我们一起喝咖啡吧！", tip: "Yuk = 一起……吧，用于邀约" },
+      { speaker: "你", indonesian: "Boleh! Sampai ketemu besok.", chinese: "好啊！明天见。" },
+    ],
+    vocab: [{ word: "Tinggal", meaning: "居住" }, { word: "Baru pindah", meaning: "刚搬来" }, { word: "Ngopi", meaning: "喝咖啡" }, { word: "Besok", meaning: "明天" }, { word: "Suka", meaning: "喜欢" }, { word: "Sampai ketemu", meaning: "回头见" }],
+  },
 ];
 
 export interface QuizQuestion {
