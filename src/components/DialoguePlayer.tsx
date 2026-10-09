@@ -7,9 +7,10 @@ import { speakIndonesian, stopSpeaking, isSpeechSupported } from "@/lib/speech";
 export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
   const [activeLine, setActiveLine] = useState<number | null>(null);
   const [playingAll, setPlayingAll] = useState(false);
-  const supported = isSpeechSupported();
+  const [supported, setSupported] = useState(false);
 
   useEffect(() => {
+    setSupported(isSpeechSupported());
     return () => stopSpeaking();
   }, [lesson.id]);
 

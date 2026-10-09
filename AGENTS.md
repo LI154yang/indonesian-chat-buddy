@@ -11,3 +11,5 @@
 
 - Keep the course center at `/`, individual lessons at `/lessons/$lessonId`, and the listening quiz at `/quiz` so courses can be opened and shared independently.
 - Keep bilingual lesson content in the shared lesson catalog and presentation metadata separately so every course page uses the same listening experience.
+
+- When adding a lesson, also add its `courseDetails` entry (category + photo) in `src/data/course-catalog.ts`; `src/test/lesson-content.test.ts` guards that every lesson stays reachable, translatable and dictation-friendly.
