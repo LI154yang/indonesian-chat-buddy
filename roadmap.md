@@ -1,3 +1,3 @@
-- [ ] Build a unified course center and connected individual lesson pages.
-- [ ] Add more everyday conversation lessons and retain listening quizzes.
-- [ ] Verify course navigation and quiz flow.
+- [x] Build a unified course center and connected individual lesson pages.
+- [x] Add more everyday conversation lessons and retain listening quizzes.
+- [x] Verify course navigation and quiz flow.

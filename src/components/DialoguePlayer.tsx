@@ -132,7 +132,7 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
 
       <div className="border-t border-border bg-accent/5 px-6 py-5">
         <div className="flex items-start gap-2.5">
-          <span className="rounded-full bg-accent px-2.5 py-0.5 text-xs font-bold text-accent-foreground">
+          <span className="shrink-0 rounded-full bg-accent px-2.5 py-0.5 text-xs font-bold text-accent-foreground">
             文化贴士
           </span>
           <p className="text-sm leading-relaxed text-muted-foreground">
