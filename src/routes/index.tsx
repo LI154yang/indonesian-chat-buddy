@@ -126,7 +126,7 @@ function Index() {
             >
               <div className="flex items-center gap-2">
                 <span
-                  className={`rounded-full px-2 py-0.5 text-xs font-bold ${levelColors[l.level]}`}
+                  className={`rounded-full px-2 py-0.5 text-xs font-bold ${levelColors[l.level] ?? levelColors["入门"]}`}
                 >
                   {l.level}
                 </span>

@@ -9,7 +9,7 @@ export function Quiz() {
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
 
-  const q = quizQuestions[current];
+  const q = quizQuestions[current]!;
 
   const choose = (i: number) => {
     if (selected !== null) return;
