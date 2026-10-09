@@ -3,6 +3,7 @@ import { Check, RotateCcw, Volume2, X } from "lucide-react";
 import type { Lesson } from "@/data/lessons";
 import { speakIndonesian } from "@/lib/speech";
 import { Button } from "@/components/ui/button";
+import { addMistake } from "@/lib/mistakes";
 
 type Result = "idle" | "correct" | "wrong";
 
@@ -35,6 +36,7 @@ export function DictationPractice({ lesson }: { lesson: Lesson }) {
     setResult(ok ? "correct" : "wrong");
     setAttempted(value => value + 1);
     if (ok) setScore(value => value + 1);
+    else addMistake({ kind: "dictation", word: current.word, meaning: current.meaning, yourAnswer: input.trim(), lessonId: lesson.id });
   };
 
   const next = () => {

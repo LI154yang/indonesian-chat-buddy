@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Headphones, ArrowUpRight } from "lucide-react";
+import { Headphones, ArrowUpRight, BookOpen, NotebookPen } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -12,9 +12,11 @@ export function LearningShell({ children }: { children: ReactNode }) {
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary font-display text-lg font-bold text-primary-foreground">N</span>
             <span className="font-display text-xl font-bold">Ngobrol!</span>
           </Link>
-          <div className="flex items-center gap-1 sm:gap-5">
+          <div className="flex items-center flex-wrap justify-end gap-1 sm:gap-3">
             <Button variant="ghost" asChild><Link to="/" activeOptions={{ exact: true }} activeProps={{ className: "bg-secondary text-primary" }}>课程中心</Link></Button>
             <Button variant="ghost" asChild><Link to="/quiz" activeProps={{ className: "bg-secondary text-primary" }}><Headphones />听力测验</Link></Button>
+            <Button variant="ghost" asChild><Link to="/words" activeProps={{ className: "bg-secondary text-primary" }}><BookOpen />单词库</Link></Button>
+            <Button variant="ghost" asChild><Link to="/mistakes" activeProps={{ className: "bg-secondary text-primary" }}><NotebookPen />错题库</Link></Button>
           </div>
         </nav>
       </header>
