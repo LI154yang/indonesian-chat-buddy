@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Play, Square, Volume2, Lightbulb, Users } from "lucide-react";
 import type { Lesson } from "@/data/lessons";
@@ -19,7 +20,9 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
       return;
     }
     setPlayingAll(false);
-    const ok = speakIndonesian(lesson.lines[index]!.indonesian, {
+    const line = lesson.lines[index];
+    if (!line) return;
+    const ok = speakIndonesian(line.indonesian, {
       onEnd: () => setActiveLine(null),
     });
     if (ok) setActiveLine(index);
@@ -42,7 +45,9 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
       }
       const current = i;
       setActiveLine(current);
-      speakIndonesian(lesson.lines[current]!.indonesian, {
+      const line = lesson.lines[current];
+      if (!line) return;
+      speakIndonesian(line.indonesian, {
         rate: 0.85,
         onEnd: () => {
           i += 1;
@@ -54,13 +59,13 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
   };
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-secondary/60 px-6 py-4">
         <div className="flex items-center gap-2 text-sm text-secondary-foreground">
           <Users className="h-4 w-4" />
           <span>{lesson.scene}</span>
         </div>
-        <button
+        <Button
           onClick={playAll}
           disabled={!supported}
           className={`inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
@@ -78,7 +83,7 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
               <Play className="h-4 w-4" /> 播放整段对话
             </>
           )}
-        </button>
+        </Button>
       </div>
 
       <div className="divide-y divide-border">
@@ -91,7 +96,7 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
                 isActive ? "bg-secondary/70" : ""
               }`}
             >
-              <button
+              <Button
                 onClick={() => playLine(i)}
                 disabled={!supported}
                 aria-label={`播放：${line.indonesian}`}
@@ -102,7 +107,7 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
                 }`}
               >
                 <Volume2 className="h-4 w-4" />
-              </button>
+              </Button>
               <div className="min-w-0">
                 <div className="text-xs font-semibold tracking-wide text-accent">
                   {line.speaker}
@@ -127,7 +132,7 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
 
       <div className="border-t border-border bg-accent/5 px-6 py-5">
         <div className="flex items-start gap-2.5">
-          <span className="rounded-full bg-accent px-2.5 py-0.5 text-xs font-bold text-accent-foreground">
+          <span className="shrink-0 rounded-full bg-accent px-2.5 py-0.5 text-xs font-bold text-accent-foreground">
             文化贴士
           </span>
           <p className="text-sm leading-relaxed text-muted-foreground">
