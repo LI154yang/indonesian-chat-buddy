@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
     { title: "课程中心 — Ngobrol! 印尼语听力课堂" },
-    { name: "description", content: "从问候、点餐到问路、酒店入住与交友，选择你的印尼语情景课程，练习听力与日常交流。" },
+    { name: "description", content: "十二门生活情景课程：从打招呼、点餐、砍价到打车、换钱、看病与 WhatsApp 约人，逐句听力、中文翻译与文化贴士。" },
     { property: "og:title", content: "课程中心 — Ngobrol!" },
-    { property: "og:description", content: "六门生活情景课程，中文翻译、逐句听力与文化贴士。" },
+    { property: "og:description", content: "十二门生活情景课程，中文翻译、逐句听力与文化贴士。" },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
   ] }),
   component: CourseCenter,
@@ -20,6 +20,8 @@ export const Route = createFileRoute("/")({
 function CourseCenter() {
   const [category, setCategory] = useState<CourseGroup>("全部课程");
   const [search, setSearch] = useState("");
+  const wordTotal = lessons.reduce((n, l) => n + l.vocab.length, 0);
+  const levelTotal = new Set(lessons.map(l => l.level)).size;
   const filtered = lessons.filter((lesson) =>
     (category === "全部课程" || courseDetails[lesson.id]?.category === category) &&
     `${lesson.title} ${lesson.subtitle} ${lesson.scene} ${lesson.vocab.map(v => v.word).join(" ")}`.toLowerCase().includes(search.trim().toLowerCase())
@@ -33,7 +35,7 @@ function CourseCenter() {
             <h1 className="mt-3 font-display text-3xl font-bold sm:text-4xl">Ngobrol! 课程中心</h1>
             <p className="mt-3 text-muted-foreground">从第一声 Halo，到自在聊生活。</p>
           </div>
-          <div className="flex gap-7 text-sm"><div><p className="font-display text-3xl font-bold">06</p><p className="mt-1 text-muted-foreground">情景课程</p></div><div className="border-l border-border pl-7"><p className="font-display text-3xl font-bold">03</p><p className="mt-1 text-muted-foreground">学习阶段</p></div></div>
+          <div className="flex gap-7 text-sm"><div><p className="font-display text-3xl font-bold">{String(lessons.length).padStart(2, "0")}</p><p className="mt-1 text-muted-foreground">情景课程</p></div><div className="border-l border-border pl-7"><p className="font-display text-3xl font-bold">{String(levelTotal).padStart(2, "0")}</p><p className="mt-1 text-muted-foreground">学习阶段</p></div><div className="border-l border-border pl-7"><p className="font-display text-3xl font-bold">{wordTotal}</p><p className="mt-1 text-muted-foreground">实用单词</p></div></div>
         </section>
         <section className="py-8">
           <div className="mb-7 flex flex-wrap items-center justify-between gap-5">
