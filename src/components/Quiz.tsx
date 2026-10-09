@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Volume2, CheckCircle2, XCircle, RotateCcw } from "lucide-react";
 import { quizQuestions } from "@/data/lessons";
 import { speakIndonesian } from "@/lib/speech";
+import { addMistake } from "@/lib/mistakes";
 
 export function Quiz() {
   const [current, setCurrent] = useState(0);
@@ -17,6 +18,7 @@ export function Quiz() {
     if (selected !== null) return;
     setSelected(i);
     if (i === q.answer) setScore((s) => s + 1);
+    else addMistake({ kind: "quiz", word: q.audio, meaning: q.options[q.answer] ?? "", yourAnswer: q.options[i] ?? "" });
   };
 
   const next = () => {
