@@ -1,9 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Volume2, BookOpen, PenLine } from "lucide-react";
+import { ArrowLeft, ArrowRight, Volume2, BookOpen, PenLine, Sparkles } from "lucide-react";
 import { lessons } from "@/data/lessons";
 import { courseDetails } from "@/data/course-catalog";
 import { DialoguePlayer } from "@/components/DialoguePlayer";
 import { DictationPractice } from "@/components/DictationPractice";
+import { SpeakingCoach } from "@/components/SpeakingCoach";
 import { LearningShell } from "@/components/LearningShell";
 import { Button } from "@/components/ui/button";
 import { speakIndonesian } from "@/lib/speech";
@@ -37,7 +38,7 @@ function LessonPage() {
         {detail && <img src={detail.image} alt={lesson.scene} width={1024} height={768} className="h-32 w-52 rounded-lg object-cover" />}
       </header>
       <div className="grid items-start gap-8 py-8 lg:grid-cols-[minmax(0,1fr)_280px]">
-        <section className="min-w-0"><h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold"><BookOpen className="h-5 w-5 text-primary" />情景对话</h2><DialoguePlayer key={lesson.id} lesson={lesson} /><h2 className="mb-4 mt-10 flex items-center gap-2 font-display text-xl font-bold"><PenLine className="h-5 w-5 text-primary" />单词听写</h2><DictationPractice key={`dictation-${lesson.id}`} lesson={lesson} /></section>
+        <section className="min-w-0"><h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold"><BookOpen className="h-5 w-5 text-primary" />情景对话</h2><DialoguePlayer key={lesson.id} lesson={lesson} /><h2 className="mb-4 mt-10 flex items-center gap-2 font-display text-xl font-bold"><PenLine className="h-5 w-5 text-primary" />单词听写</h2><DictationPractice key={`dictation-${lesson.id}`} lesson={lesson} /><h2 className="mb-4 mt-10 flex items-center gap-2 font-display text-xl font-bold"><Sparkles className="h-5 w-5 text-primary" />AI 情景表达练习</h2><SpeakingCoach key={`coach-${lesson.id}`} lesson={lesson} /></section>
         <aside className="border-t border-border py-5 lg:border-t-0 lg:py-0"><h2 className="font-display text-xl font-bold">本课词汇</h2><ul className="mt-4 divide-y divide-border">{lesson.vocab.map(v => <li key={v.word} className="flex items-center justify-between gap-3 py-4"><div className="min-w-0"><p className="break-words text-sm font-semibold">{v.word}</p><p className="mt-1 text-xs text-muted-foreground">{v.meaning}</p></div><Button variant="secondary" size="icon" title={`播放：${v.word}`} aria-label={`播放：${v.word}`} onClick={() => speakIndonesian(v.word)}><Volume2 /></Button></li>)}</ul><Button variant="outline" asChild className="mt-5 w-full"><Link to="/quiz">听力测验<ArrowRight /></Link></Button></aside>
       </div>
       <nav aria-label="课程切换" className="flex flex-wrap justify-between gap-4 border-t border-border py-6">
