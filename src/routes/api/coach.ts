@@ -24,7 +24,7 @@ export const Route = createFileRoute("/api/coach")({
         if (!parsed.success) return Response.json({ error: "请输入 1-500 字的回答。" }, { status: 400 });
         const lesson = lessons.find(l => l.id === parsed.data.lessonId);
         if (!lesson) return Response.json({ error: "课程不存在。" }, { status: 404 });
-        const apiKey = process.env.LOVABLE_API_KEY;
+        const apiKey = process.env["LOVABLE_API_KEY"];
         if (!apiKey) return Response.json({ error: "AI 服务未配置。" }, { status: 500 });
 
         const context = `课程：${lesson.title}（${lesson.level}）\n情景：${lesson.scene}\n练习题目：${parsed.data.prompt ?? "自由回应这个情景"}\n本课词汇：${lesson.vocab.map(v => `${v.word}=${v.meaning}`).join("，")}\n\n学生的印尼语回答：\n${parsed.data.answer}`;
