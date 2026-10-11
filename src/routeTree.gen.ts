@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as MistakesRouteImport } from './routes/mistakes'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as WordsRouteImport } from './routes/words'
+import { Route as ApiCoachRouteImport } from './routes/api/coach'
 import { Route as LessonsLessonIdRouteImport } from './routes/lessons.$lessonId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const WordsRoute = WordsRouteImport.update({
   path: '/words',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCoachRoute = ApiCoachRouteImport.update({
+  id: '/api/coach',
+  path: '/api/coach',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LessonsLessonIdRoute = LessonsLessonIdRouteImport.update({
   id: '/lessons/$lessonId',
   path: '/lessons/$lessonId',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/mistakes': typeof MistakesRoute
   '/quiz': typeof QuizRoute
   '/words': typeof WordsRoute
+  '/api/coach': typeof ApiCoachRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/mistakes': typeof MistakesRoute
   '/quiz': typeof QuizRoute
   '/words': typeof WordsRoute
+  '/api/coach': typeof ApiCoachRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,24 @@ export interface FileRoutesById {
   '/mistakes': typeof MistakesRoute
   '/quiz': typeof QuizRoute
   '/words': typeof WordsRoute
+  '/api/coach': typeof ApiCoachRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/mistakes' | '/quiz' | '/words' | '/lessons/$lessonId'
+  fullPaths:
+    '/' | '/mistakes' | '/quiz' | '/words' | '/api/coach' | '/lessons/$lessonId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/mistakes' | '/quiz' | '/words' | '/lessons/$lessonId'
-  id: '__root__' | '/' | '/mistakes' | '/quiz' | '/words' | '/lessons/$lessonId'
+  to:
+    '/' | '/mistakes' | '/quiz' | '/words' | '/api/coach' | '/lessons/$lessonId'
+  id:
+    | '__root__'
+    | '/'
+    | '/mistakes'
+    | '/quiz'
+    | '/words'
+    | '/api/coach'
+    | '/lessons/$lessonId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +94,7 @@ export interface RootRouteChildren {
   MistakesRoute: typeof MistakesRoute
   QuizRoute: typeof QuizRoute
   WordsRoute: typeof WordsRoute
+  ApiCoachRoute: typeof ApiCoachRoute
   LessonsLessonIdRoute: typeof LessonsLessonIdRoute
 }
 
@@ -109,6 +128,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WordsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/coach': {
+      id: '/api/coach'
+      path: '/api/coach'
+      fullPath: '/api/coach'
+      preLoaderRoute: typeof ApiCoachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lessons/$lessonId': {
       id: '/lessons/$lessonId'
       path: '/lessons/$lessonId'
@@ -124,6 +150,7 @@ const rootRouteChildren: RootRouteChildren = {
   MistakesRoute: MistakesRoute,
   QuizRoute: QuizRoute,
   WordsRoute: WordsRoute,
+  ApiCoachRoute: ApiCoachRoute,
   LessonsLessonIdRoute: LessonsLessonIdRoute,
 }
 export const routeTree = rootRouteImport
