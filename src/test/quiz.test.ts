@@ -10,7 +10,7 @@ describe("Quiz round builder", () => {
     const round = buildQuizRound();
     expect(round.length).toBe(quizQuestions.length);
     for (const q of round) {
-      const source = quizQuestions.find(s => s.question === q.question);
+      const source = quizQuestions.find(s => s.audio === q.audio);
       expect(source, `unknown question: ${q.question}`).toBeTruthy();
       expect([...q.options].sort()).toEqual([...source!.options].sort());
     }
@@ -19,7 +19,7 @@ describe("Quiz round builder", () => {
   it("always maps the answer index to the correct option text", () => {
     for (let run = 0; run < 20; run++) {
       for (const q of buildQuizRound()) {
-        const source = quizQuestions.find(s => s.question === q.question)!;
+        const source = quizQuestions.find(s => s.audio === q.audio)!;
         expect(q.options[q.answer]).toBe(source.options[source.answer]);
       }
     }
