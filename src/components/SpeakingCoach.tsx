@@ -4,7 +4,7 @@ import type { Lesson } from "@/data/lessons";
 import { Button } from "@/components/ui/button";
 
 export function SpeakingCoach({ lesson }: { lesson: Lesson }) {
-  const prompts = lesson.dialogue.filter((_, i) => i % 2 === 0).slice(0, 4).map(l => `对方说：「${l.indonesian}」（${l.chinese}），你会怎么回答？`);
+  const prompts = lesson.lines.filter((_, i) => i % 2 === 0).slice(0, 4).map(l => `对方说：「${l.indonesian}」（${l.chinese}），你会怎么回答？`);
   const [promptIdx, setPromptIdx] = useState(0);
   const [answer, setAnswer] = useState("");
   const [feedback, setFeedback] = useState("");
