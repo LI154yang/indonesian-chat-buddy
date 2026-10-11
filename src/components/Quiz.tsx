@@ -1,44 +1,57 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Volume2, CheckCircle2, XCircle, RotateCcw } from "lucide-react";
-import { quizQuestions } from "@/data/lessons";
+import { Volume2, CheckCircle2, XCircle, RotateCcw, Send } from "lucide-react";
 import { speakIndonesian } from "@/lib/speech";
 import { addMistake } from "@/lib/mistakes";
+import { buildQuizRound, type ShuffledQuestion } from "@/lib/quiz";
 
 export function Quiz() {
+  const [round, setRound] = useState<ShuffledQuestion[]>(() => buildQuizRound());
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
+  const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
 
-  const q = quizQuestions[current];
+  const q = round[current];
   if (!q) return null;
 
   const choose = (i: number) => {
-    if (selected !== null) return;
+    if (submitted) return;
     setSelected(i);
-    if (i === q.answer) setScore((s) => s + 1);
-    else addMistake({ kind: "quiz", word: q.audio, meaning: q.options[q.answer] ?? "", yourAnswer: q.options[i] ?? "" });
+  };
+
+  const submit = () => {
+    if (selected === null || submitted) return;
+    setSubmitted(true);
+    if (selected === q.answer) {
+      setScore(s => s + 1);
+    } else {
+      addMistake({ kind: "quiz", word: q.audio, meaning: q.options[q.answer] ?? "", yourAnswer: q.options[selected] ?? "" });
+    }
   };
 
   const next = () => {
-    if (current + 1 >= quizQuestions.length) {
+    if (current + 1 >= round.length) {
       setFinished(true);
     } else {
-      setCurrent((c) => c + 1);
+      setCurrent(c => c + 1);
       setSelected(null);
+      setSubmitted(false);
     }
   };
 
   const restart = () => {
+    setRound(buildQuizRound());
     setCurrent(0);
     setSelected(null);
+    setSubmitted(false);
     setScore(0);
     setFinished(false);
   };
 
   if (finished) {
-    const pct = Math.round((score / quizQuestions.length) * 100);
+    const pct = Math.round((score / round.length) * 100);
     return (
       <div className="rounded-lg border border-border bg-card p-10 text-center shadow-sm">
         <div className="font-display text-6xl font-bold text-primary">
@@ -46,7 +59,7 @@ export function Quiz() {
           <span className="text-2xl">分</span>
         </div>
         <p className="mt-3 text-lg font-medium text-card-foreground">
-          答对 {score} / {quizQuestions.length} 题
+          答对 {score} / {round.length} 题
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
           {pct >= 80
@@ -59,7 +72,7 @@ export function Quiz() {
           onClick={restart}
           className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
         >
-          <RotateCcw className="h-4 w-4" /> 再测一次
+          <RotateCcw className="h-4 w-4" /> 再测一次（题目会重新打乱）
         </Button>
       </div>
     );
@@ -69,14 +82,14 @@ export function Quiz() {
     <div className="rounded-lg border border-border bg-card p-8 shadow-sm">
       <div className="flex items-center justify-between text-sm text-muted-foreground">
         <span>
-          第 {current + 1} / {quizQuestions.length} 题
+          第 {current + 1} / {round.length} 题
         </span>
         <span>得分：{score}</span>
       </div>
       <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
         <div
           className="h-full rounded-full bg-primary transition-all"
-          style={{ width: `${((current + 1) / quizQuestions.length) * 100}%` }}
+          style={{ width: `${((current + 1) / round.length) * 100}%` }}
         />
       </div>
 
@@ -93,19 +106,22 @@ export function Quiz() {
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {q.options.map((opt, i) => {
-          const isCorrect = selected !== null && i === q.answer;
-          const isWrong = selected === i && i !== q.answer;
+          const isCorrect = submitted && i === q.answer;
+          const isWrong = submitted && selected === i && i !== q.answer;
+          const isPicked = !submitted && selected === i;
           return (
             <Button
               key={i}
               onClick={() => choose(i)}
-              disabled={selected !== null}
+              disabled={submitted}
               className={`flex items-center justify-between gap-2 rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors ${
                 isCorrect
                   ? "border-accent bg-accent/10 text-foreground"
                   : isWrong
                     ? "border-destructive bg-destructive/10 text-foreground"
-                    : "border-border bg-background text-foreground hover:border-primary hover:bg-secondary"
+                    : isPicked
+                      ? "border-primary bg-secondary text-foreground"
+                      : "border-border bg-background text-foreground hover:border-primary hover:bg-secondary"
               }`}
             >
               {opt}
@@ -116,18 +132,28 @@ export function Quiz() {
         })}
       </div>
 
-      {selected !== null && (
+      {!submitted && (
+        <Button
+          onClick={submit}
+          disabled={selected === null}
+          className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+        >
+          <Send className="h-4 w-4" /> 提交答案
+        </Button>
+      )}
+
+      {submitted && (
         <div className="mt-5 rounded-lg bg-secondary p-4 text-sm text-secondary-foreground">
           {q.explanation}
         </div>
       )}
 
-      {selected !== null && (
+      {submitted && (
         <Button
           onClick={next}
           className="mt-5 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
         >
-          {current + 1 >= quizQuestions.length ? "查看成绩" : "下一题"}
+          {current + 1 >= round.length ? "查看成绩" : "下一题"}
         </Button>
       )}
     </div>
