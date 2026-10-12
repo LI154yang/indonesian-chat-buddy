@@ -26,7 +26,7 @@ export function PracticeQuiz({ build, lessonId }: { build: () => PracticeQuestio
     if (selected === null || submitted) return;
     setSubmitted(true);
     if (selected === q.answer) setScore(s => s + 1);
-    else addMistake({ kind: "quiz", word: q.audio ?? q.prompt, meaning: q.options[q.answer] ?? "", yourAnswer: q.options[selected] ?? "", lessonId });
+    else addMistake({ kind: "quiz", word: q.audio ?? q.prompt, meaning: q.options[q.answer] ?? "", yourAnswer: q.options[selected] ?? "", ...(lessonId ? { lessonId } : {}) });
   };
   const next = () => {
     if (current + 1 >= round.length) setFinished(true);
