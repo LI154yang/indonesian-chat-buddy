@@ -9,10 +9,12 @@
 - [x] Keep course center stats, category filters and page descriptions in sync with the catalog.
 - [x] Verify all 12 lesson pages, word bank, mistake bank and mobile layout in the browser.
 
+- [x] Per-lesson randomized quiz, shuffled AI prompts, and 3 long-form story readings with comprehension.
+
 ## Open
 - (none)
 
 ## Next candidates
-- Per-lesson quiz instead of one global 5-question test.
+
 - Real recorded audio for key sentences instead of browser speech.
 - Lesson progress + spaced review of the mistake bank.

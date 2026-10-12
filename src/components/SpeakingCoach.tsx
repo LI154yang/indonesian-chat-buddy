@@ -1,10 +1,13 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { shuffle } from "@/lib/quiz";
 import { Sparkles, Square, RotateCcw } from "lucide-react";
 import type { Lesson } from "@/data/lessons";
 import { Button } from "@/components/ui/button";
 
 export function SpeakingCoach({ lesson }: { lesson: Lesson }) {
-  const prompts = lesson.lines.filter((_, i) => i % 2 === 0).slice(0, 4).map(l => `对方说：「${l.indonesian}」（${l.chinese}），你会怎么回答？`);
+  const base = lesson.lines.filter(l => l.speaker !== "你").map(l => `对方说：「${l.indonesian}」（${l.chinese}），你会怎么回答？`);
+  const [prompts, setPrompts] = useState(base);
+  useEffect(() => { setPrompts(shuffle(base)); }, [lesson.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const [promptIdx, setPromptIdx] = useState(0);
   const [answer, setAnswer] = useState("");
   const [feedback, setFeedback] = useState("");
