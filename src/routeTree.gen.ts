@@ -10,9 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as MistakesRouteImport } from './routes/mistakes'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as WordsRouteImport } from './routes/words'
+import { Route as ApiAssistantRouteImport } from './routes/api/assistant'
 import { Route as ApiCoachRouteImport } from './routes/api/coach'
 import { Route as LessonsLessonIdRouteImport } from './routes/lessons.$lessonId'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
@@ -21,6 +23,11 @@ import { Route as StoriesStoryIdRouteImport } from './routes/stories.$storyId'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MistakesRoute = MistakesRouteImport.update({
@@ -36,6 +43,11 @@ const QuizRoute = QuizRouteImport.update({
 const WordsRoute = WordsRouteImport.update({
   id: '/words',
   path: '/words',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAssistantRoute = ApiAssistantRouteImport.update({
+  id: '/api/assistant',
+  path: '/api/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiCoachRoute = ApiCoachRouteImport.update({
@@ -61,9 +73,11 @@ const StoriesStoryIdRoute = StoriesStoryIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/mistakes': typeof MistakesRoute
   '/quiz': typeof QuizRoute
   '/words': typeof WordsRoute
+  '/api/assistant': typeof ApiAssistantRoute
   '/api/coach': typeof ApiCoachRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
   '/stories/$storyId': typeof StoriesStoryIdRoute
@@ -71,9 +85,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/mistakes': typeof MistakesRoute
   '/quiz': typeof QuizRoute
   '/words': typeof WordsRoute
+  '/api/assistant': typeof ApiAssistantRoute
   '/api/coach': typeof ApiCoachRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
   '/stories/$storyId': typeof StoriesStoryIdRoute
@@ -82,9 +98,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/mistakes': typeof MistakesRoute
   '/quiz': typeof QuizRoute
   '/words': typeof WordsRoute
+  '/api/assistant': typeof ApiAssistantRoute
   '/api/coach': typeof ApiCoachRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
   '/stories/$storyId': typeof StoriesStoryIdRoute
@@ -94,9 +112,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/assistant'
     | '/mistakes'
     | '/quiz'
     | '/words'
+    | '/api/assistant'
     | '/api/coach'
     | '/lessons/$lessonId'
     | '/stories/$storyId'
@@ -104,9 +124,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/assistant'
     | '/mistakes'
     | '/quiz'
     | '/words'
+    | '/api/assistant'
     | '/api/coach'
     | '/lessons/$lessonId'
     | '/stories/$storyId'
@@ -114,9 +136,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/assistant'
     | '/mistakes'
     | '/quiz'
     | '/words'
+    | '/api/assistant'
     | '/api/coach'
     | '/lessons/$lessonId'
     | '/stories/$storyId'
@@ -125,9 +149,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistantRoute: typeof AssistantRoute
   MistakesRoute: typeof MistakesRoute
   QuizRoute: typeof QuizRoute
   WordsRoute: typeof WordsRoute
+  ApiAssistantRoute: typeof ApiAssistantRoute
   ApiCoachRoute: typeof ApiCoachRoute
   LessonsLessonIdRoute: typeof LessonsLessonIdRoute
   StoriesStoryIdRoute: typeof StoriesStoryIdRoute
@@ -141,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mistakes': {
@@ -162,6 +195,13 @@ declare module '@tanstack/react-router' {
       path: '/words'
       fullPath: '/words'
       preLoaderRoute: typeof WordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/assistant': {
+      id: '/api/assistant'
+      path: '/api/assistant'
+      fullPath: '/api/assistant'
+      preLoaderRoute: typeof ApiAssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/coach': {
@@ -197,9 +237,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistantRoute: AssistantRoute,
   MistakesRoute: MistakesRoute,
   QuizRoute: QuizRoute,
   WordsRoute: WordsRoute,
+  ApiAssistantRoute: ApiAssistantRoute,
   ApiCoachRoute: ApiCoachRoute,
   LessonsLessonIdRoute: LessonsLessonIdRoute,
   StoriesStoryIdRoute: StoriesStoryIdRoute,
