@@ -37,9 +37,13 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
       return;
     }
     setPlayingAll(true);
+    let cancelled = false;
+    cancelRef.current = () => {
+      cancelled = true;
+    };
     let i = 0;
     const next = () => {
-      if (i >= lesson.lines.length) {
+      if (cancelled || i >= lesson.lines.length) {
         setPlayingAll(false);
         setActiveLine(null);
         return;

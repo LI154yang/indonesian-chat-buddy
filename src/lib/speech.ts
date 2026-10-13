@@ -20,10 +20,14 @@ export function speakIndonesian(
   if (idVoice) utterance.voice = idVoice;
 
   utterance.onend = () => {
+    // Ignore callbacks from utterances that were cancelled/replaced,
+    // otherwise a stopped "play all" keeps scheduling the next line.
+    if (currentUtterance !== utterance) return;
     currentUtterance = null;
     options?.onEnd?.();
   };
   utterance.onerror = () => {
+    if (currentUtterance !== utterance) return;
     currentUtterance = null;
     options?.onEnd?.();
   };
