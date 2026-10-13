@@ -32,8 +32,8 @@ function AssistantPage() {
   const [sfx, setSfx] = useState(true);
   const abortRef = useRef<AbortController | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
-  useEffect(() => setSfx(isSfxOn()), []);
-  useEffect(() => endRef.current?.scrollIntoView({ block: "end" }), [messages]);
+  useEffect(() => { setSfx(isSfxOn()); }, []);
+  useEffect(() => { endRef.current?.scrollIntoView({ block: "end" }); }, [messages]);
 
   async function send(text: string) {
     const q = text.trim();
