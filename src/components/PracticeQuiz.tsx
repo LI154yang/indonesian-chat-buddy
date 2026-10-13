@@ -16,7 +16,7 @@ export function PracticeQuiz({ build, lessonId }: { build: () => PracticeQuestio
 
   const restart = () => { setRound(build()); setCurrent(0); setSelected(null); setSubmitted(false); setScore(0); setFinished(false); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(restart, []);
+  useEffect(() => { restart(); }, []);
 
   if (!round) return <div className="rounded-lg border border-border bg-card p-6 text-sm text-muted-foreground">正在出题…</div>;
   const q = round[current];
