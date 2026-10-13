@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Play, Square, Volume2, Lightbulb, Users } from "lucide-react";
 import type { Lesson } from "@/data/lessons";
 import { speakIndonesian, stopSpeaking, isSpeechSupported } from "@/lib/speech";
@@ -8,6 +8,7 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
   const [activeLine, setActiveLine] = useState<number | null>(null);
   const [playingAll, setPlayingAll] = useState(false);
   const [supported, setSupported] = useState(false);
+  const cancelRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     setSupported(isSpeechSupported());
@@ -31,15 +32,21 @@ export function DialoguePlayer({ lesson }: { lesson: Lesson }) {
 
   const playAll = () => {
     if (playingAll) {
+      cancelRef.current?.();
+      cancelRef.current = null;
       stopSpeaking();
       setPlayingAll(false);
       setActiveLine(null);
       return;
     }
     setPlayingAll(true);
+    let cancelled = false;
+    cancelRef.current = () => {
+      cancelled = true;
+    };
     let i = 0;
     const next = () => {
-      if (i >= lesson.lines.length) {
+      if (cancelled || i >= lesson.lines.length) {
         setPlayingAll(false);
         setActiveLine(null);
         return;
