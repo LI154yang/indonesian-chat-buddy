@@ -14,7 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      coach_results: {
+        Row: {
+          answer: string
+          created_at: string
+          feedback: string
+          id: string
+          lesson_id: string | null
+          prompt: string
+          user_id: string
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          feedback: string
+          id?: string
+          lesson_id?: string | null
+          prompt: string
+          user_id: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          feedback?: string
+          id?: string
+          lesson_id?: string | null
+          prompt?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      mistakes: {
+        Row: {
+          count: number
+          id: string
+          kind: string
+          last_at: string
+          lesson_id: string | null
+          meaning: string
+          user_id: string
+          word: string
+          your_answer: string
+        }
+        Insert: {
+          count?: number
+          id: string
+          kind: string
+          last_at?: string
+          lesson_id?: string | null
+          meaning?: string
+          user_id: string
+          word: string
+          your_answer?: string
+        }
+        Update: {
+          count?: number
+          id?: string
+          kind?: string
+          last_at?: string
+          lesson_id?: string | null
+          meaning?: string
+          user_id?: string
+          word?: string
+          your_answer?: string
+        }
+        Relationships: []
+      }
+      quiz_attempts: {
+        Row: {
+          correct: number
+          created_at: string
+          id: string
+          lesson_id: string | null
+          total: number
+          user_id: string
+        }
+        Insert: {
+          correct: number
+          created_at?: string
+          id?: string
+          lesson_id?: string | null
+          total: number
+          user_id: string
+        }
+        Update: {
+          correct?: number
+          created_at?: string
+          id?: string
+          lesson_id?: string | null
+          total?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
