@@ -67,6 +67,10 @@ export const lessons: Lesson[] = [
       { word: "Baik", meaning: "好 / 很好" },
       { word: "Terima kasih", meaning: "谢谢" },
       { word: "Nama saya...", meaning: "我叫……" },
+      { word: "Senang bertemu denganmu", meaning: "很高兴认识你" },
+      { word: "Dari mana", meaning: "来自哪里" },
+      { word: "Tiongkok", meaning: "中国" },
+      { word: "Pertama kali", meaning: "第一次" },
     ],
   },
   {
@@ -129,6 +133,10 @@ export const lessons: Lesson[] = [
       { word: "Murah", meaning: "便宜" },
       { word: "Ribu", meaning: "千（价格单位）" },
       { word: "Rupiah", meaning: "印尼盾" },
+      { word: "Batik", meaning: "蜡染布" },
+      { word: "Seratus", meaning: "一百" },
+      { word: "Terlalu", meaning: "太、过于" },
+      { word: "Delapan puluh", meaning: "八十" },
     ],
   },
   {
@@ -191,6 +199,10 @@ export const lessons: Lesson[] = [
       { word: "Es teh manis", meaning: "甜冰茶" },
       { word: "Berapa semuanya?", meaning: "一共多少钱？" },
       { word: "Enak sekali!", meaning: "太好吃了！" },
+      { word: "Selamat malam", meaning: "晚上好" },
+      { word: "Sudah", meaning: "已经、好了" },
+      { word: "Ada lagi?", meaning: "还要别的吗？" },
+      { word: "Uang", meaning: "钱" },
     ],
   },
   {
@@ -204,7 +216,7 @@ export const lessons: Lesson[] = [
       { speaker: "你", indonesian: "Baik, terima kasih banyak!", chinese: "好的，非常感谢！" },
       { speaker: "路人", indonesian: "Sama-sama. Hati-hati di jalan.", chinese: "不客气。路上小心。" },
     ],
-    vocab: [{ word: "Permisi", meaning: "打扰一下" }, { word: "Di mana?", meaning: "在哪里？" }, { word: "Belok kiri", meaning: "左转" }, { word: "Jalan kaki", meaning: "步行" }, { word: "Dekat", meaning: "近" }, { word: "Lurus", meaning: "直走" }],
+    vocab: [{ word: "Permisi", meaning: "打扰一下" }, { word: "Di mana?", meaning: "在哪里？" }, { word: "Belok kiri", meaning: "左转" }, { word: "Jalan kaki", meaning: "步行" }, { word: "Dekat", meaning: "近" }, { word: "Lurus", meaning: "直走" }, { word: "Belok kanan", meaning: "右转" }, { word: "Jauh", meaning: "远" }, { word: "Stasiun", meaning: "火车站" }, { word: "Menit", meaning: "分钟" }],
   },
   {
     id: "hotel", title: "酒店入住", subtitle: "办理入住，询问早餐与房间", level: "初级", scene: "巴厘岛酒店前台",
@@ -217,7 +229,7 @@ export const lessons: Lesson[] = [
       { speaker: "你", indonesian: "Sudah termasuk sarapan?", chinese: "包含早餐吗？", tip: "Termasuk = 包含" },
       { speaker: "前台", indonesian: "Sudah. Sarapan mulai jam tujuh di restoran.", chinese: "包含了。早餐七点开始，在餐厅用餐。" },
     ],
-    vocab: [{ word: "Paspor", meaning: "护照" }, { word: "Kamar", meaning: "房间" }, { word: "Lantai dua", meaning: "二楼" }, { word: "Sarapan", meaning: "早餐" }, { word: "Kunci", meaning: "钥匙" }, { word: "Termasuk", meaning: "包含" }],
+    vocab: [{ word: "Paspor", meaning: "护照" }, { word: "Kamar", meaning: "房间" }, { word: "Lantai dua", meaning: "二楼" }, { word: "Sarapan", meaning: "早餐" }, { word: "Kunci", meaning: "钥匙" }, { word: "Termasuk", meaning: "包含" }, { word: "Check-in", meaning: "办理入住" }, { word: "Atas nama", meaning: "用……的名字预订" }, { word: "Restoran", meaning: "餐厅" }, { word: "Jam tujuh", meaning: "七点" }],
   },
   {
     id: "friends", title: "交朋友与邀约", subtitle: "聊聊生活，约一杯咖啡", level: "进阶", scene: "雅加达咖啡馆，与新朋友聊天",
@@ -230,7 +242,7 @@ export const lessons: Lesson[] = [
       { speaker: "Andi", indonesian: "Ada. Besok sore kita ngopi, yuk!", chinese: "有。明天下午我们一起喝咖啡吧！", tip: "Yuk = 一起……吧，用于邀约" },
       { speaker: "你", indonesian: "Boleh! Sampai ketemu besok.", chinese: "好啊！明天见。" },
     ],
-    vocab: [{ word: "Tinggal", meaning: "居住" }, { word: "Baru pindah", meaning: "刚搬来" }, { word: "Ngopi", meaning: "喝咖啡" }, { word: "Besok", meaning: "明天" }, { word: "Suka", meaning: "喜欢" }, { word: "Sampai ketemu", meaning: "回头见" }],
+    vocab: [{ word: "Tinggal", meaning: "居住" }, { word: "Baru pindah", meaning: "刚搬来" }, { word: "Ngopi", meaning: "喝咖啡" }, { word: "Besok", meaning: "明天" }, { word: "Suka", meaning: "喜欢" }, { word: "Sampai ketemu", meaning: "回头见" }, { word: "Kafe", meaning: "咖啡馆" }, { word: "Sore", meaning: "下午" }, { word: "Ketemu", meaning: "见面、碰头" }, { word: "Selamat datang", meaning: "欢迎" }],
   },
   {
     id: "polite", title: "称呼与礼貌用语", subtitle: "叫对人，说对话", level: "入门", scene: "印尼邻居来串门",
@@ -243,7 +255,7 @@ export const lessons: Lesson[] = [
       { speaker: "Pak Budi", indonesian: "Iya, tidak apa-apa. Sama-sama, ya.", chinese: "好的，没关系。不客气。", tip: "Sama-sama = 不客气" },
       { speaker: "你", indonesian: "Maaf, Pak. Saya harus pergi dulu. Sampai jumpa!", chinese: "抱歉先生，我先走了。再见！", tip: "Sampai jumpa = 再见" },
     ],
-    vocab: [{ word: "Bapak", meaning: "先生、叔叔（尊称）" }, { word: "Ibu", meaning: "女士、阿姨（尊称）" }, { word: "Mas", meaning: "对年轻男性的称呼" }, { word: "Mbak", meaning: "对年轻女性的称呼" }, { word: "Permisi", meaning: "打扰一下" }, { word: "Maaf", meaning: "抱歉" }, { word: "Sama-sama", meaning: "不客气" }, { word: "Tidak apa-apa", meaning: "没关系" }],
+    vocab: [{ word: "Bapak", meaning: "先生、叔叔（尊称）" }, { word: "Ibu", meaning: "女士、阿姨（尊称）" }, { word: "Mas", meaning: "对年轻男性的称呼" }, { word: "Mbak", meaning: "对年轻女性的称呼" }, { word: "Permisi", meaning: "打扰一下" }, { word: "Maaf", meaning: "抱歉" }, { word: "Sama-sama", meaning: "不客气" }, { word: "Tidak apa-apa", meaning: "没关系" }, { word: "Kakak", meaning: "哥、姐（亲切称呼）" }, { word: "Tamu", meaning: "客人" }, { word: "Butuh", meaning: "需要" }, { word: "Sampai jumpa", meaning: "再见" }],
   },
   {
     id: "taxi", title: "打车与说目的地", subtitle: "上车、报地址、顺利到地方", level: "初级", scene: "雅加达街头，上网约车",
@@ -258,7 +270,7 @@ export const lessons: Lesson[] = [
       { speaker: "司机", indonesian: "Boleh. Sampai sudah, Mbak.", chinese: "可以。到了。", tip: "Sampai sudah = 到了" },
       { speaker: "你", indonesian: "Terima kasih, Pak. Kembaliannya ambil saja.", chinese: "谢谢您，先生。零钱您留着吧。", tip: "Kembaliannya ambil saja = 零钱不用找了" },
     ],
-    vocab: [{ word: "Ke mana?", meaning: "去哪里？" }, { word: "Diantar", meaning: "送到、被送去" }, { word: "Macet", meaning: "堵车" }, { word: "Boleh?", meaning: "可以吗？" }, { word: "Berhenti", meaning: "停车、停下" }, { word: "Kembalian", meaning: "找零" }],
+    vocab: [{ word: "Ke mana?", meaning: "去哪里？" }, { word: "Diantar", meaning: "送到、被送去" }, { word: "Macet", meaning: "堵车" }, { word: "Boleh?", meaning: "可以吗？" }, { word: "Berhenti", meaning: "停车、停下" }, { word: "Kembalian", meaning: "找零" }, { word: "Siap", meaning: "好的、收到" }, { word: "Sampai sudah", meaning: "到了" }, { word: "Putih", meaning: "白色" }, { word: "Lama", meaning: "久、时间长" }],
   },
   {
     id: "money", title: "换钱与付款", subtitle: "换印尼盾，问清能不能扫码", level: "初级", scene: "巴厘岛的官方兑换点",
@@ -273,7 +285,7 @@ export const lessons: Lesson[] = [
       { speaker: "你", indonesian: "Sudah, terima kasih. Bisa bayar pakai QRIS?", chinese: "数过了，谢谢。能用 QRIS 付款吗？", tip: "Pakai = 用（某种方式或工具）" },
       { speaker: "柜员", indonesian: "Bisa. Scan kode ini, ya.", chinese: "可以。扫这个码。", tip: "Scan = 扫码" },
     ],
-    vocab: [{ word: "Tukar uang", meaning: "换钱" }, { word: "Kurs", meaning: "汇率" }, { word: "Uang tunai", meaning: "现金" }, { word: "Transfer", meaning: "转账" }, { word: "Bayar", meaning: "付款" }, { word: "Scan", meaning: "扫码" }],
+    vocab: [{ word: "Tukar uang", meaning: "换钱" }, { word: "Kurs", meaning: "汇率" }, { word: "Uang tunai", meaning: "现金" }, { word: "Transfer", meaning: "转账" }, { word: "Bayar", meaning: "付款" }, { word: "Scan", meaning: "扫码" }, { word: "Tiga juta", meaning: "三百万" }, { word: "Dolar", meaning: "美元" }, { word: "Hari ini", meaning: "今天" }, { word: "Hitung", meaning: "数、计算" }],
   },
   {
     id: "doctor", title: "看病与买药", subtitle: "说清哪里不舒服", level: "进阶", scene: "当地的诊所（klinik）",
@@ -288,7 +300,7 @@ export const lessons: Lesson[] = [
       { speaker: "护士", indonesian: "Tiga kali sehari. Banyak minum air putih, ya.", chinese: "一天三次。要多喝白开水。", tip: "Air putih = 白开水" },
       { speaker: "你", indonesian: "Baik, terima kasih. Kalau belum sembuh, saya kembali lagi.", chinese: "好的，谢谢。如果还没好，我再过来。", tip: "Sembuh = 病好了" },
     ],
-    vocab: [{ word: "Demam", meaning: "发烧" }, { word: "Sakit kepala", meaning: "头痛" }, { word: "Obat", meaning: "药" }, { word: "Alergi", meaning: "过敏" }, { word: "Sehari", meaning: "一天（之内）" }, { word: "Sembuh", meaning: "痊愈" }],
+    vocab: [{ word: "Demam", meaning: "发烧" }, { word: "Sakit kepala", meaning: "头痛" }, { word: "Obat", meaning: "药" }, { word: "Alergi", meaning: "过敏" }, { word: "Sehari", meaning: "一天（之内）" }, { word: "Sembuh", meaning: "痊愈" }, { word: "Minum", meaning: "喝" }, { word: "Air putih", meaning: "白开水" }, { word: "Kemarin", meaning: "昨天" }, { word: "Sakit", meaning: "疼、生病" }],
   },
   {
     id: "whatsapp", title: "用 WhatsApp 约人", subtitle: "发语音、约时间、说我在路上", level: "进阶", scene: "和新朋友在 WhatsApp 上聊天",
@@ -302,7 +314,7 @@ export const lessons: Lesson[] = [
       { speaker: "你", indonesian: "Siap. Aku otw, ya. Sepuluh menit sampai.", chinese: "收到。我在路上了，十分钟到。", tip: "Otw = on the way，路上常用缩写" },
       { speaker: "Andi", indonesian: "Sip. Nanti aku pesankan tempat.", chinese: "好。我帮你占个位。", tip: "Pesankan = 帮忙占位、帮忙预订" },
     ],
-    vocab: [{ word: "Lagi", meaning: "正在（口语）" }, { word: "Nanti", meaning: "待会儿、回头" }, { word: "Kabarin", meaning: "通知一声" }, { word: "Otw", meaning: "在路上" }, { word: "Telat", meaning: "迟到" }, { word: "Sip", meaning: "没问题" }],
+    vocab: [{ word: "Lagi", meaning: "正在（口语）" }, { word: "Nanti", meaning: "待会儿、回头" }, { word: "Kabarin", meaning: "通知一声" }, { word: "Otw", meaning: "在路上" }, { word: "Telat", meaning: "迟到" }, { word: "Sip", meaning: "没问题" }, { word: "Sibuk", meaning: "忙" }, { word: "Tunggu", meaning: "等" }, { word: "Menit", meaning: "分钟" }, { word: "Tempat", meaning: "位置、座位" }],
   },
   {
     id: "tour", title: "景点门票与拍照", subtitle: "买票、请人帮忙拍照", level: "初级", scene: "巴厘岛乌布梯田景区",
@@ -317,7 +329,7 @@ export const lessons: Lesson[] = [
       { speaker: "你", indonesian: "Bisa dikirim lewat WhatsApp?", chinese: "能通过 WhatsApp 发给我吗？", tip: "Lewat = 通过" },
       { speaker: "工作人员", indonesian: "Bisa. Nanti saya kirim.", chinese: "可以，我回头发给您。", tip: "Nanti = 待会儿、回头" },
     ],
-    vocab: [{ word: "Tiket masuk", meaning: "门票" }, { word: "Pemandu", meaning: "向导" }, { word: "Tolong fotoin", meaning: "帮忙拍照" }, { word: "Sebelah sana", meaning: "那边" }, { word: "Lewat", meaning: "通过" }, { word: "Kirim", meaning: "发送" }],
+    vocab: [{ word: "Tiket masuk", meaning: "门票" }, { word: "Pemandu", meaning: "向导" }, { word: "Tolong fotoin", meaning: "帮忙拍照" }, { word: "Sebelah sana", meaning: "那边" }, { word: "Lewat", meaning: "通过" }, { word: "Kirim", meaning: "发送" }, { word: "Harga", meaning: "价格" }, { word: "Orang", meaning: "人" }, { word: "Foto", meaning: "拍照、照片" }, { word: "Menunggu", meaning: "等待" }],
   },
 ];
 
