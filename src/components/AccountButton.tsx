@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { LogIn, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { syncMistakesFromCloud } from "@/lib/mistakes";
+import { setMistakeOwner, syncMistakesFromCloud } from "@/lib/mistakes";
 
 export function AccountButton() {
   const [email, setEmail] = useState<string | null>(null);
@@ -14,10 +14,12 @@ export function AccountButton() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       setEmail(data.session?.user.email ?? null);
+      setMistakeOwner(data.session?.user.id ?? null);
       if (data.session) void syncMistakesFromCloud();
     });
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       setEmail(session?.user.email ?? null);
+      setMistakeOwner(session?.user.id ?? null);
       if (event === "SIGNED_IN") void syncMistakesFromCloud();
     });
     return () => { data.subscription.unsubscribe(); };

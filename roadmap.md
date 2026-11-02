@@ -12,7 +12,8 @@
 - [x] Per-lesson randomized quiz, shuffled AI prompts, and 3 long-form story readings with comprehension.
 
 ## Open
-- (none)
+- [ ] Add 1/3/7-day mistake review scheduling, reminders, and correct-answer graduation.
+- [ ] Persist review state to accounts and verify review behavior and cloud read-back.
 
 ## Next candidates
 
