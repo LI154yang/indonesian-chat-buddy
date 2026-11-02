@@ -10,6 +10,10 @@ export interface CloudMistake {
   lesson_id: string | null;
   count: number;
   last_at: string;
+  review_stage: number;
+  next_review_at: string | null;
+  mastered_at: string | null;
+  review_updated_at: string;
 }
 
 /** 读取当前用户的全部错题 */
@@ -18,7 +22,7 @@ export const loadMistakes = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data, error } = await context.supabase
       .from("mistakes")
-      .select("id, kind, word, meaning, your_answer, lesson_id, count, last_at")
+      .select("id, kind, word, meaning, your_answer, lesson_id, count, last_at, review_stage, next_review_at, mastered_at, review_updated_at")
       .order("last_at", { ascending: false });
     if (error) throw new Error(error.message);
     return (data ?? []) as CloudMistake[];
@@ -27,7 +31,10 @@ export const loadMistakes = createServerFn({ method: "GET" })
 /** 合并写入一条错题（同 id 则累加次数） */
 export const saveMistake = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { id: string; kind: string; word: string; meaning: string; yourAnswer: string; lessonId?: string; count: number; lastAt: number }) => d)
+  .inputValidator((d: { id: string; kind: string; word: string; meaning: string; yourAnswer: string; lessonId?: string; count: number; lastAt: number; reviewStage: number; nextReviewAt: number | null; masteredAt: number | null; reviewUpdatedAt: number }) => {
+    if (!Number.isInteger(d.reviewStage) || d.reviewStage < 0 || d.reviewStage > 2 || !Number.isFinite(d.reviewUpdatedAt)) throw new Error("Invalid review state");
+    return d;
+  })
   .handler(async ({ context, data }) => {
     const { error } = await context.supabase.from("mistakes").upsert({
       id: data.id,
@@ -39,6 +46,10 @@ export const saveMistake = createServerFn({ method: "POST" })
       lesson_id: data.lessonId ?? null,
       count: data.count,
       last_at: new Date(data.lastAt).toISOString(),
+      review_stage: data.reviewStage,
+      next_review_at: data.nextReviewAt === null ? null : new Date(data.nextReviewAt).toISOString(),
+      mastered_at: data.masteredAt === null ? null : new Date(data.masteredAt).toISOString(),
+      review_updated_at: new Date(data.reviewUpdatedAt).toISOString(),
     }, { onConflict: "user_id,id" });
     if (error) throw new Error(error.message);
     return { ok: true };
