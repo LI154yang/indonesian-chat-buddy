@@ -39,7 +39,7 @@ export const saveMistake = createServerFn({ method: "POST" })
       lesson_id: data.lessonId ?? null,
       count: data.count,
       last_at: new Date(data.lastAt).toISOString(),
-    });
+    }, { onConflict: "user_id,id" });
     if (error) throw new Error(error.message);
     return { ok: true };
   });
