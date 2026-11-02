@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Volume2, CheckCircle2, XCircle, RotateCcw, Send } from "lucide-react";
 import { speakIndonesian } from "@/lib/speech";
 import { addMistake } from "@/lib/mistakes";
+import { saveQuizAttempt } from "@/lib/cloud";
 import { buildQuizRound, type ShuffledQuestion } from "@/lib/quiz";
 
 export function Quiz() {
@@ -34,6 +35,7 @@ export function Quiz() {
   const next = () => {
     if (current + 1 >= round.length) {
       setFinished(true);
+      void saveQuizAttempt({ data: { total: round.length, correct: score } }).catch(() => {});
     } else {
       setCurrent(c => c + 1);
       setSelected(null);
