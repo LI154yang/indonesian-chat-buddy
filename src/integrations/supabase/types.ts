@@ -51,7 +51,11 @@ export type Database = {
           kind: string
           last_at: string
           lesson_id: string | null
+          mastered_at: string | null
           meaning: string
+          next_review_at: string | null
+          review_stage: number
+          review_updated_at: string
           user_id: string
           word: string
           your_answer: string
@@ -62,7 +66,11 @@ export type Database = {
           kind: string
           last_at?: string
           lesson_id?: string | null
+          mastered_at?: string | null
           meaning?: string
+          next_review_at?: string | null
+          review_stage?: number
+          review_updated_at?: string
           user_id: string
           word: string
           your_answer?: string
@@ -73,7 +81,11 @@ export type Database = {
           kind?: string
           last_at?: string
           lesson_id?: string | null
+          mastered_at?: string | null
           meaning?: string
+          next_review_at?: string | null
+          review_stage?: number
+          review_updated_at?: string
           user_id?: string
           word?: string
           your_answer?: string
