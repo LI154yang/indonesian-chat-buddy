@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { DueBadge } from "@/components/DueBadge";
-import { Headphones, ArrowUpRight, BookOpen, NotebookPen, BookText, Bot } from "lucide-react";
+import { Headphones, ArrowUpRight, BookOpen, NotebookPen, BookText, Bot, TrendingUp } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { AccountButton } from "@/components/AccountButton";
@@ -21,6 +21,7 @@ export function LearningShell({ children }: { children: ReactNode }) {
             <Button variant="ghost" asChild><Link to="/words" activeProps={{ className: "bg-secondary text-primary" }}><BookOpen />单词库</Link></Button>
             <Button variant="ghost" asChild><Link to="/mistakes" activeProps={{ className: "bg-secondary text-primary" }}><NotebookPen />错题库<DueBadge /></Link></Button>
             <Button variant="ghost" asChild><Link to="/assistant" activeProps={{ className: "bg-secondary text-primary" }}><Bot />学习助手</Link></Button>
+            <Button variant="ghost" asChild><Link to="/progress" activeProps={{ className: "bg-secondary text-primary" }}><TrendingUp />我的学习</Link></Button>
             <AccountButton />
           </div>
         </nav>

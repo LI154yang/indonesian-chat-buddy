@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as MistakesRouteImport } from './routes/mistakes'
+import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as WordsRouteImport } from './routes/words'
 import { Route as ApiAssistantRouteImport } from './routes/api/assistant'
@@ -39,6 +40,11 @@ const AuthRoute = AuthRouteImport.update({
 const MistakesRoute = MistakesRouteImport.update({
   id: '/mistakes',
   path: '/mistakes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuizRoute = QuizRouteImport.update({
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
   '/mistakes': typeof MistakesRoute
+  '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/words': typeof WordsRoute
   '/api/assistant': typeof ApiAssistantRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
   '/mistakes': typeof MistakesRoute
+  '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/words': typeof WordsRoute
   '/api/assistant': typeof ApiAssistantRoute
@@ -109,6 +117,7 @@ export interface FileRoutesById {
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
   '/mistakes': typeof MistakesRoute
+  '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/words': typeof WordsRoute
   '/api/assistant': typeof ApiAssistantRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/auth'
     | '/mistakes'
+    | '/progress'
     | '/quiz'
     | '/words'
     | '/api/assistant'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/auth'
     | '/mistakes'
+    | '/progress'
     | '/quiz'
     | '/words'
     | '/api/assistant'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/auth'
     | '/mistakes'
+    | '/progress'
     | '/quiz'
     | '/words'
     | '/api/assistant'
@@ -164,6 +176,7 @@ export interface RootRouteChildren {
   AssistantRoute: typeof AssistantRoute
   AuthRoute: typeof AuthRoute
   MistakesRoute: typeof MistakesRoute
+  ProgressRoute: typeof ProgressRoute
   QuizRoute: typeof QuizRoute
   WordsRoute: typeof WordsRoute
   ApiAssistantRoute: typeof ApiAssistantRoute
@@ -201,6 +214,13 @@ declare module '@tanstack/react-router' {
       path: '/mistakes'
       fullPath: '/mistakes'
       preLoaderRoute: typeof MistakesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quiz': {
@@ -260,6 +280,7 @@ const rootRouteChildren: RootRouteChildren = {
   AssistantRoute: AssistantRoute,
   AuthRoute: AuthRoute,
   MistakesRoute: MistakesRoute,
+  ProgressRoute: ProgressRoute,
   QuizRoute: QuizRoute,
   WordsRoute: WordsRoute,
   ApiAssistantRoute: ApiAssistantRoute,

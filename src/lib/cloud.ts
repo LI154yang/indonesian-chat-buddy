@@ -102,3 +102,19 @@ export const saveCoachResult = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+/** 学习记录：测验成绩与 AI 批改时间 */
+export const loadProgress = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const [quiz, coach] = await Promise.all([
+      context.supabase.from("quiz_attempts").select("lesson_id, correct, total, created_at").order("created_at").limit(1000),
+      context.supabase.from("coach_results").select("created_at").limit(1000),
+    ]);
+    if (quiz.error) throw new Error(quiz.error.message);
+    if (coach.error) throw new Error(coach.error.message);
+    return {
+      attempts: (quiz.data ?? []).map(a => ({ lessonId: a.lesson_id, correct: a.correct, total: a.total, at: new Date(a.created_at).getTime() })),
+      coachTimes: (coach.data ?? []).map(c => new Date(c.created_at).getTime()),
+    };
+  });
