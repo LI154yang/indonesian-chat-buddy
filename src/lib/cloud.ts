@@ -109,12 +109,18 @@ export const loadProgress = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const [quiz, coach] = await Promise.all([
       context.supabase.from("quiz_attempts").select("lesson_id, correct, total, created_at").order("created_at").limit(1000),
-      context.supabase.from("coach_results").select("created_at").limit(1000),
+      context.supabase.from("coach_results").select("lesson_id, prompt, answer, feedback, created_at").order("created_at", { ascending: false }).limit(100),
     ]);
     if (quiz.error) throw new Error(quiz.error.message);
     if (coach.error) throw new Error(coach.error.message);
     return {
       attempts: (quiz.data ?? []).map(a => ({ lessonId: a.lesson_id, correct: a.correct, total: a.total, at: new Date(a.created_at).getTime() })),
-      coachTimes: (coach.data ?? []).map(c => new Date(c.created_at).getTime()),
+      coachResults: (coach.data ?? []).map(c => ({
+        lessonId: c.lesson_id,
+        prompt: c.prompt,
+        answer: c.answer,
+        feedback: c.feedback,
+        at: new Date(c.created_at).getTime(),
+      })),
     };
   });

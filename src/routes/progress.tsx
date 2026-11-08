@@ -1,15 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { Flame, Trophy, LogIn } from "lucide-react";
+import { Flame, Trophy } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis, Bar, BarChart } from "recharts";
 import { LearningShell } from "@/components/LearningShell";
-import { Button } from "@/components/ui/button";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { supabase } from "@/integrations/supabase/client";
 import { lessons } from "@/data/lessons";
 import { loadProgress } from "@/lib/cloud";
 import { useMistakes } from "@/lib/mistakes";
+import { useLocalProfile } from "@/lib/local-profile";
 import { lessonProgress, openMistakeTrend, PASS_RATE, studyStreak } from "@/lib/progress";
 
 export const Route = createFileRoute("/progress")({
@@ -30,19 +30,15 @@ function ProgressPage() {
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSignedIn(!!data.session));
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => setSignedIn(!!session));
+    return () => { data.subscription.unsubscribe(); };
   }, []);
   return (
     <LearningShell>
       <main className="mx-auto max-w-5xl px-5 py-10 sm:px-8">
         <h1 className="font-display text-4xl font-bold">我的学习</h1>
         <p className="mt-2 text-muted-foreground">看看自己走了多远。</p>
-        {signedIn === false && (
-          <div className="mt-10 rounded-lg border border-dashed border-border p-10 text-center">
-            <p className="text-muted-foreground">登录后才能保存并查看你的学习记录。</p>
-            <Button className="mt-4" asChild><Link to="/auth"><LogIn />登录 / 注册</Link></Button>
-          </div>
-        )}
-        {signedIn && <Dashboard />}
+        {signedIn === null ? <p className="mt-8 text-muted-foreground">正在读取学习记录…</p> : <Dashboard signedIn={signedIn} />}
       </main>
     </LearningShell>
   );
@@ -57,18 +53,22 @@ function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; va
   );
 }
 
-function Dashboard() {
-  const { data, isLoading, error } = useQuery({ queryKey: ["progress"], queryFn: () => loadProgress() });
+function Dashboard({ signedIn }: { signedIn: boolean }) {
+  const { data, isLoading, error } = useQuery({ queryKey: ["progress"], queryFn: () => loadProgress(), enabled: signedIn });
+  const localProfile = useLocalProfile();
   const mistakes = useMistakes();
-  if (isLoading) return <p className="mt-8 text-muted-foreground">加载中…</p>;
-  if (error || !data) return <p className="mt-8 text-destructive">学习记录加载失败，请稍后刷新。</p>;
+  if (signedIn && isLoading) return <p className="mt-8 text-muted-foreground">加载中…</p>;
+  if (signedIn && (error || !data)) return <p className="mt-8 text-destructive">学习记录加载失败，请稍后刷新。</p>;
+
+  const attempts = signedIn ? data?.attempts ?? [] : localProfile.attempts;
+  const coachResults = signedIn ? data?.coachResults ?? [] : localProfile.coachResults;
 
   const now = Date.now();
   const tz = new Date().getTimezoneOffset();
-  const streak = studyStreak([...data.attempts.map(a => a.at), ...data.coachTimes, ...mistakes.map(m => m.lastAt), ...mistakes.flatMap(m => m.masteredAt ? [m.masteredAt] : [])], now, tz);
-  const best = lessonProgress(data.attempts);
+  const streak = studyStreak([...attempts.map(a => a.at), ...coachResults.map(r => r.at), ...mistakes.map(m => m.lastAt), ...mistakes.flatMap(m => m.masteredAt ? [m.masteredAt] : [])], now, tz);
+  const best = lessonProgress(attempts);
   const done = lessons.filter(l => (best.get(l.id) ?? 0) >= PASS_RATE).length;
-  const scores = data.attempts.slice(-20).map((a, i) => ({ n: `${i + 1}`, score: Math.round((a.correct / a.total) * 100) }));
+  const scores = attempts.slice(-20).map((a, i) => ({ n: `${i + 1}`, score: Math.round((a.correct / a.total) * 100) }));
   const trend = openMistakeTrend(mistakes, now);
 
   return (
@@ -76,7 +76,7 @@ function Dashboard() {
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
         <Stat icon={<Flame className="text-primary" />} label="连续学习" value={`${streak} 天`} />
         <Stat icon={<Trophy className="text-primary" />} label="完成课程" value={`${done} / ${lessons.length}`} />
-        <Stat icon={<Trophy className="text-accent" />} label="测验次数" value={`${data.attempts.length}`} />
+        <Stat icon={<Trophy className="text-accent" />} label="测验次数" value={`${attempts.length}`} />
       </div>
 
       <section className="mt-10">
@@ -127,6 +127,21 @@ function Dashboard() {
             </BarChart>
           </ChartContainer>
         </div>
+      </section>
+      <section className="mt-10">
+        <h2 className="font-display text-2xl font-semibold">AI 批改记录</h2>
+        {coachResults.length === 0 ? <p className="mt-3 text-sm text-muted-foreground">完成一次情景表达练习后，批改内容会保存在这里。</p> : (
+          <ul className="mt-4 divide-y divide-border border-y border-border">
+            {coachResults.slice(0, 10).map((result, index) => (
+              <li key={`${result.at}-${index}`} className="py-5">
+                <p className="text-xs text-muted-foreground">{new Date(result.at).toLocaleString()}</p>
+                <p className="mt-2 text-sm font-medium">{result.prompt}</p>
+                <p className="mt-2 text-sm"><span className="text-muted-foreground">你的回答：</span>{result.answer}</p>
+                <p className="mt-3 whitespace-pre-wrap rounded-md bg-muted p-3 text-sm leading-relaxed">{result.feedback}</p>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </>
   );

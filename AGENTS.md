@@ -13,3 +13,4 @@
 - Keep bilingual lesson content in the shared lesson catalog and presentation metadata separately so every course page uses the same listening experience.
 
 - When adding a lesson, also add its `courseDetails` entry (category + photo) in `src/data/course-catalog.ts`; `src/test/lesson-content.test.ts` guards that every lesson stays reachable, translatable and dictation-friendly.
+- Keep visitor profile, quiz attempts, and AI coach history in the shared local learning-profile module so all screens use one persistence shape.

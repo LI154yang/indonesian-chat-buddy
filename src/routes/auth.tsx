@@ -9,9 +9,9 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "登录 / 注册 · Ngobrol! 印尼语听力课堂" },
-      { name: "description", content: "登录后，你的错题、测验成绩和 AI 批改记录会保存到账号里，换设备也不丢。" },
+      { name: "description", content: "无需登录即可在本机保存学习记录；邮箱登录为可选功能。" },
       { property: "og:title", content: "登录 / 注册 · Ngobrol!" },
-      { property: "og:description", content: "保存你的学习记录。" },
+      { property: "og:description", content: "本机学习无需注册，邮箱登录为可选功能。" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -68,7 +68,7 @@ function AuthPage() {
       <main className="mx-auto max-w-md px-5 py-14 sm:px-8">
         <h1 className="font-display text-3xl font-bold">{mode === "login" ? "登录" : "注册"}</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          登录后，错题、测验成绩和 AI 批改记录都会保存到你的账号，换设备也能接着学。
+          不需要账号也能学习，错题、测验和 AI 批改记录会保存在当前设备。邮箱登录是可选的。
         </p>
         <form onSubmit={submit} className="mt-8 space-y-4 rounded-lg border border-border bg-card p-6">
           <div>

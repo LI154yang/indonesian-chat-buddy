@@ -12,6 +12,7 @@
 - [x] Per-lesson randomized quiz, shuffled AI prompts, and 3 long-form story readings with comprehension.
 
 ## Open
+- [x] Add an optional local learner profile that saves quiz attempts and AI coaching feedback without requiring registration.
 - [x] Add 1/3/7-day mistake review scheduling, reminders, and correct-answer graduation.
 - [x] Persist review state to accounts and verify review behavior and cloud read-back.
 

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { shuffle } from "@/lib/quiz";
 import { saveCoachResult } from "@/lib/cloud";
+import { recordLocalCoachResult } from "@/lib/local-profile";
 import { Sparkles, Square, RotateCcw } from "lucide-react";
 import type { Lesson } from "@/data/lessons";
 import { Button } from "@/components/ui/button";
@@ -26,7 +27,10 @@ export function SpeakingCoach({ lesson }: { lesson: Lesson }) {
       if (!res.ok || !res.body) { const d = await res.json().catch(() => ({})) as { error?: string }; setError(d.error ?? "AI 暂时无法回应。"); return; }
       const reader = res.body.getReader(); const dec = new TextDecoder(); let full = "";
       while (true) { const { value, done } = await reader.read(); if (done) break; const chunk = dec.decode(value, { stream: true }); full += chunk; setFeedback(f => f + chunk); }
-      if (full.trim()) void saveCoachResult({ data: { lessonId: lesson.id, prompt, answer, feedback: full } }).catch(() => {});
+      if (full.trim()) {
+        recordLocalCoachResult({ lessonId: lesson.id, prompt, answer, feedback: full, at: Date.now() });
+        void saveCoachResult({ data: { lessonId: lesson.id, prompt, answer, feedback: full } }).catch(() => {});
+      }
     } catch (e) {
       if (!(e instanceof Error && e.name === "AbortError")) setError("网络出错，请稍后再试。");
     } finally { setLoading(false); abortRef.current = null; }
