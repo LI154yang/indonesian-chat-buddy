@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { speakIndonesian } from "@/lib/speech";
 import { addMistake } from "@/lib/mistakes";
 import { saveQuizAttempt } from "@/lib/cloud";
+import { recordLocalQuizAttempt } from "@/lib/local-profile";
 import type { PracticeQuestion } from "@/lib/practice";
 
 /** Generic quiz: pick → submit → feedback → next. `build` is called for each new round. */
@@ -30,7 +31,12 @@ export function PracticeQuiz({ build, lessonId }: { build: () => PracticeQuestio
     else addMistake({ kind: "quiz", word: q.audio ?? q.prompt, meaning: q.options[q.answer] ?? "", yourAnswer: q.options[selected] ?? "", ...(lessonId ? { lessonId } : {}) });
   };
   const next = () => {
-    if (current + 1 >= round.length) { setFinished(true); void saveQuizAttempt({ data: { ...(lessonId ? { lessonId } : {}), total: round.length, correct: score } }).catch(() => {}); }
+    if (current + 1 >= round.length) {
+      setFinished(true);
+      const attempt = { lessonId: lessonId ?? null, total: round.length, correct: score, at: Date.now() };
+      recordLocalQuizAttempt(attempt);
+      void saveQuizAttempt({ data: { ...(lessonId ? { lessonId } : {}), total: round.length, correct: score } }).catch(() => {});
+    }
     else { setCurrent(c => c + 1); setSelected(null); setSubmitted(false); }
   };
 
