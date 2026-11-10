@@ -14,3 +14,4 @@
 
 - When adding a lesson, also add its `courseDetails` entry (category + photo) in `src/data/course-catalog.ts`; `src/test/lesson-content.test.ts` guards that every lesson stays reachable, translatable and dictation-friendly.
 - Keep visitor profile, quiz attempts, and AI coach history in the shared local learning-profile module so all screens use one persistence shape.
+- Serve Indonesian reading audio through one shared, allowlisted speech endpoint with browser speech as a fallback, so shared lessons work without a local Indonesian voice pack.
