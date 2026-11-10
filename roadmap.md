@@ -15,8 +15,8 @@
 - [x] Add an optional local learner profile that saves quiz attempts and AI coaching feedback without requiring registration.
 - [x] Add 1/3/7-day mistake review scheduling, reminders, and correct-answer graduation.
 - [x] Persist review state to accounts and verify review behavior and cloud read-back.
+- [x] Provide shared Indonesian audio playback for lessons, words, quizzes, and stories, with device speech as a fallback.
 
 ## Next candidates
 
-- Real recorded audio for key sentences instead of browser speech.
 - Lesson progress + spaced review of the mistake bank.
