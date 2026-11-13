@@ -4,6 +4,10 @@
 
 This project was built with [Lovable](https://lovable.dev).
 
+## Audio
+
+Lessons, stories, and quizzes prefer the provided audio; if it cannot load, supported browsers fall back to device speech synthesis using an Indonesian (id-ID) voice when available.
+
 ## Build with Lovable
 
 Continue developing this project in the [Lovable editor](https://lovable.dev/projects/a571dcec-d1e7-50aa-bde8-e1fb50ff08ea).
