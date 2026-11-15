@@ -48,4 +48,12 @@ describe("Lesson catalog", () => {
       }
     }
   });
+
+  it("adds 20 words to the greeting and market lessons", () => {
+    for (const lessonId of ["greeting", "market"]) {
+      const lesson = lessons.find((item) => item.id === lessonId);
+      expect(lesson, `lesson ${lessonId} is missing`).toBeTruthy();
+      expect(lesson!.vocab).toHaveLength(30);
+    }
+  });
 });
