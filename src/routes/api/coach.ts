@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { lessons } from "@/data/lessons";
-import { createLovableAiGatewayRunIdFetch } from "@/server/run-id";
+import {
+  CLOUDFLARE_AI_MODEL,
+  cloudflareAiTextStream,
+  getCloudflareAiBinding,
+} from "@/server/cloudflare-ai";
 
 const Body = z.object({
   lessonId: z.string(),
@@ -20,77 +24,43 @@ export const Route = createFileRoute("/api/coach")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const parsed = Body.safeParse(await request.json().catch(() => null));
-        if (!parsed.success) return Response.json({ error: "请输入 1-500 字的回答。" }, { status: 400 });
-        const lesson = lessons.find(l => l.id === parsed.data.lessonId);
-        if (!lesson) return Response.json({ error: "课程不存在。" }, { status: 404 });
-        const apiKey = process.env["LOVABLE_API_KEY"];
-        if (!apiKey) return Response.json({ error: "AI 服务未配置。" }, { status: 500 });
-
-        const context = `课程：${lesson.title}（${lesson.level}）\n情景：${lesson.scene}\n练习题目：${parsed.data.prompt ?? "自由回应这个情景"}\n本课词汇：${lesson.vocab.map(v => `${v.word}=${v.meaning}`).join("，")}\n\n学生的印尼语回答：\n${parsed.data.answer}`;
-        const gateway = createLovableAiGatewayRunIdFetch();
-        let upstream: Response;
+        let body: unknown;
         try {
-          upstream = await gateway.fetch("https://ai.gateway.lovable.dev/v1/responses", {
-            method: "POST",
-            signal: request.signal,
-            headers: { "Content-Type": "application/json", "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "fetch" },
-            body: JSON.stringify({
-              model: "openai/gpt-6-astra",
-              input: [{ role: "system", content: SYSTEM }, { role: "user", content: context }],
-              stream: true,
-              store: false,
-              reasoning: { effort: "low", summary: "auto" },
-              include: ["reasoning.encrypted_content"],
-            }),
+          body = await request.json();
+        } catch {
+          body = null;
+        }
+        const parsed = Body.safeParse(body);
+        if (!parsed.success)
+          return Response.json({ error: "请输入 1-500 字的回答。" }, { status: 400 });
+        const lesson = lessons.find((l) => l.id === parsed.data.lessonId);
+        if (!lesson) return Response.json({ error: "课程不存在。" }, { status: 404 });
+        const ai = getCloudflareAiBinding();
+        if (!ai)
+          return Response.json(
+            { error: "Cloudflare AI 服务未启用，请检查 Worker 的 AI 绑定。" },
+            { status: 503 },
+          );
+
+        const context = `课程：${lesson.title}（${lesson.level}）\n情景：${lesson.scene}\n练习题目：${parsed.data.prompt ?? "自由回应这个情景"}\n本课词汇：${lesson.vocab.map((v) => `${v.word}=${v.meaning}`).join("，")}\n\n学生的印尼语回答：\n${parsed.data.answer}`;
+        let upstream: ReadableStream<Uint8Array>;
+        try {
+          upstream = await ai.run(CLOUDFLARE_AI_MODEL, {
+            messages: [
+              { role: "system", content: SYSTEM },
+              { role: "user", content: context },
+            ],
+            stream: true,
           });
         } catch (error) {
           if (request.signal.aborted) return new Response(null, { status: 499 });
-          throw error;
-        }
-        if (!upstream.ok || !upstream.body) {
-          const data = await upstream.json().catch(() => ({})) as { error?: { message?: string }; message?: string };
-          const msg = upstream.status === 429 ? "请求太频繁，请稍后再试。"
-            : upstream.status === 402 ? (data.message ?? "AI 额度已用完。")
-            : data.error?.message ?? data.message ?? "AI 暂时无法回应。";
-          return Response.json({ error: msg }, { status: upstream.status });
+          console.error("Cloudflare AI request failed:", error);
+          return Response.json({ error: "AI 暂时无法回应，请稍后再试。" }, { status: 502 });
         }
 
-        // Convert SSE into a plain text stream of output deltas.
-        const reader = upstream.body.getReader();
-        const decoder = new TextDecoder();
-        const encoder = new TextEncoder();
-        const stream = new ReadableStream<Uint8Array>({
-          async start(controller) {
-            let buffer = "";
-            let any = false;
-            try {
-              while (true) {
-                const { value, done } = await reader.read();
-                if (done) break;
-                buffer += decoder.decode(value, { stream: true });
-                const lines = buffer.split("\n");
-                buffer = lines.pop() ?? "";
-                for (const line of lines) {
-                  if (!line.startsWith("data:")) continue;
-                  const payload = line.slice(5).trim();
-                  if (!payload || payload === "[DONE]") continue;
-                  try {
-                    const evt = JSON.parse(payload) as { type?: string; delta?: string; error?: { message?: string }; response?: { error?: { message?: string } } };
-                    if (evt.type === "response.output_text.delta" && evt.delta) { any = true; controller.enqueue(encoder.encode(evt.delta)); }
-                    else if (evt.type === "error" || evt.type === "response.failed") {
-                      controller.enqueue(encoder.encode(`\n\n[出错了：${evt.error?.message ?? evt.response?.error?.message ?? "AI 回应失败"}]`));
-                    }
-                  } catch { /* ignore partial */ }
-                }
-              }
-              if (!any) controller.enqueue(encoder.encode("[AI 没有返回内容，请换个说法再试一次。]"));
-            } catch { /* client aborted */ }
-            controller.close();
-          },
-          cancel() { reader.cancel().catch(() => {}); },
+        return new Response(cloudflareAiTextStream(upstream), {
+          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-cache" },
         });
-        return new Response(stream, { headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-cache" } });
       },
     },
   },
